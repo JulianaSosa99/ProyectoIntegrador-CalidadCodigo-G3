@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PerishableProduct.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">inventory-g3</a> &gt; <a href="index.source.html" class="el_package">com.example.inventory.model</a> &gt; <span class="el_source">PerishableProduct.java</span></div><h1>PerishableProduct.java</h1><pre class="source lang-java linenums">package com.example.inventory.model;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class PerishableProduct extends Product {
+    private final LocalDate expirationDate;
+
+    public PerishableProduct(String name, int quantity, double price, 
+                            LocalDate expirationDate) {
+<span class="nc" id="L11">        super(name, quantity, price, &quot;Perishable&quot;);</span>
+<span class="nc" id="L12">        this.expirationDate = expirationDate;</span>
+<span class="nc" id="L13">    }</span>
+
+    public LocalDate getExpirationDate() {
+<span class="nc" id="L16">        return expirationDate;</span>
+    }
+
+    public long getDaysUntilExpiration() {
+<span class="nc" id="L20">        return ChronoUnit.DAYS.between(LocalDate.now(), expirationDate);</span>
+    }
+
+    public boolean isExpired() {
+<span class="nc" id="L24">        return LocalDate.now().isAfter(expirationDate);</span>
+    }
+
+    @Override
+    public String getProductInfo() {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        String status = isExpired() ? &quot;EXPIRED&quot; : </span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                       getDaysUntilExpiration() &lt; 7 ? &quot;EXPIRING SOON&quot; : &quot;Fresh&quot;;</span>
+<span class="nc" id="L31">        return String.format(&quot;%s, Expiration: %s [%s]&quot;, </span>
+<span class="nc" id="L32">                           super.getProductInfo(), expirationDate, status);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

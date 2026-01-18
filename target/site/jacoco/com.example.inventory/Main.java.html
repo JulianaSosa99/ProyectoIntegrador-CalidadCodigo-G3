@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">inventory-g3</a> &gt; <a href="index.source.html" class="el_package">com.example.inventory</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.example.inventory;
+
+import com.example.inventory.model.Product;
+import com.example.inventory.model.ElectronicProduct;
+import com.example.inventory.model.PerishableProduct;
+import com.example.inventory.service.IInventoryOperations;
+import com.example.inventory.service.IProductValidator;
+import com.example.inventory.service.InventoryManager;
+import com.example.inventory.service.ProductValidator;
+import com.example.inventory.output.IInventoryOutput;
+import com.example.inventory.output.ConsoleInventoryPrinter;
+import com.example.inventory.output.DetailedInventoryPrinter;
+import com.example.inventory.output.SummaryInventoryPrinter;
+import com.example.inventory.exception.InvalidProductException;
+import java.time.LocalDate;
+
+<span class="nc" id="L17">public class Main {</span>
+    public static void main(String[] args) {
+<span class="nc" id="L19">        IProductValidator validator = new ProductValidator();</span>
+<span class="nc" id="L20">        IInventoryOperations inventory = new InventoryManager(validator);</span>
+
+        try {
+<span class="nc" id="L23">            System.out.println(&quot;Starting Inventory Management System...\n&quot;);</span>
+
+<span class="nc" id="L25">            addSampleProducts(inventory);</span>
+            
+<span class="nc" id="L27">            demonstrateBasicOperations(inventory);</span>
+            
+<span class="nc" id="L29">            demonstrateDifferentOutputFormats(inventory);</span>
+
+<span class="nc" id="L31">        } catch (InvalidProductException e) {</span>
+<span class="nc" id="L32">            System.err.println(&quot;Error: &quot; + e.getMessage());</span>
+<span class="nc" id="L33">        }</span>
+<span class="nc" id="L34">    }</span>
+
+    private static void addSampleProducts(IInventoryOperations inventory) {
+<span class="nc" id="L37">        System.out.println(&quot;Adding products to inventory...\n&quot;);</span>
+
+<span class="nc" id="L39">        Product laptop = new ElectronicProduct(&quot;Laptop Dell XPS&quot;, 5, 1200.00, 24, &quot;Dell&quot;);</span>
+<span class="nc" id="L40">        Product mouse = new ElectronicProduct(&quot;Wireless Mouse&quot;, 20, 25.50, 12, &quot;Logitech&quot;);</span>
+<span class="nc" id="L41">        Product keyboard = new ElectronicProduct(&quot;Mechanical Keyboard&quot;, 15, 89.99, 18, &quot;Corsair&quot;);</span>
+        
+<span class="nc" id="L43">        Product milk = new PerishableProduct(&quot;Organic Milk&quot;, 30, 3.99, </span>
+<span class="nc" id="L44">                                            LocalDate.now().plusDays(7));</span>
+<span class="nc" id="L45">        Product bread = new PerishableProduct(&quot;Whole Wheat Bread&quot;, 50, 2.49, </span>
+<span class="nc" id="L46">                                             LocalDate.now().plusDays(5));</span>
+        
+<span class="nc" id="L48">        Product notebook = new Product(&quot;Spiral Notebook&quot;, 100, 1.99, &quot;Stationery&quot;);</span>
+<span class="nc" id="L49">        Product pen = new Product(&quot;Ballpoint Pen Pack&quot;, 200, 5.99, &quot;Stationery&quot;);</span>
+
+<span class="nc" id="L51">        inventory.addProduct(laptop);</span>
+<span class="nc" id="L52">        inventory.addProduct(mouse);</span>
+<span class="nc" id="L53">        inventory.addProduct(keyboard);</span>
+<span class="nc" id="L54">        inventory.addProduct(milk);</span>
+<span class="nc" id="L55">        inventory.addProduct(bread);</span>
+<span class="nc" id="L56">        inventory.addProduct(notebook);</span>
+<span class="nc" id="L57">        inventory.addProduct(pen);</span>
+<span class="nc" id="L58">    }</span>
+
+    private static void demonstrateBasicOperations(IInventoryOperations inventory) {
+<span class="nc" id="L61">        System.out.println(&quot;\n Demonstrating basic operations...\n&quot;);</span>
+
+<span class="nc" id="L63">        inventory.updateProductQuantity(&quot;Laptop Dell XPS&quot;, 8);</span>
+<span class="nc" id="L64">        inventory.updateProductPrice(&quot;Wireless Mouse&quot;, 22.99);</span>
+        
+<span class="nc" id="L66">        System.out.println(&quot;\n Searching for 'Laptop Dell XPS':&quot;);</span>
+<span class="nc" id="L67">        inventory.findProductByName(&quot;Laptop Dell XPS&quot;)</span>
+<span class="nc" id="L68">                .ifPresent(p -&gt; System.out.println(&quot;  Found: &quot; + p.getProductInfo()));</span>
+        
+<span class="nc" id="L70">        System.out.println(&quot;\n Electronics products:&quot;);</span>
+<span class="nc" id="L71">        inventory.getProductsByCategory(&quot;Electronics&quot;)</span>
+<span class="nc" id="L72">                .forEach(p -&gt; System.out.println(&quot;  • &quot; + p.getName()));</span>
+<span class="nc" id="L73">    }</span>
+
+    private static void demonstrateDifferentOutputFormats(IInventoryOperations inventory) {
+<span class="nc" id="L76">        System.out.println(&quot;\n Displaying inventory in different formats...\n&quot;);</span>
+
+<span class="nc" id="L78">        IInventoryOutput consolePrinter = new ConsoleInventoryPrinter();</span>
+<span class="nc" id="L79">        consolePrinter.displayProducts(inventory.getAllProducts());</span>
+
+<span class="nc" id="L81">        IInventoryOutput detailedPrinter = new DetailedInventoryPrinter();</span>
+<span class="nc" id="L82">        detailedPrinter.displayProducts(inventory.getAllProducts());</span>
+
+<span class="nc" id="L84">        IInventoryOutput summaryPrinter = new SummaryInventoryPrinter();</span>
+<span class="nc" id="L85">        summaryPrinter.displayProducts(inventory.getAllProducts());</span>
+<span class="nc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

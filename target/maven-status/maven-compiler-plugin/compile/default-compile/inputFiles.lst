@@ -1,0 +1,14 @@
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/output/DetailedInventoryPrinter.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/service/ProductValidator.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/Inventory.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/output/ConsoleInventoryPrinter.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/model/Product.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/model/ElectronicProduct.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/Main.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/service/IInventoryOperations.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/exception/InvalidProductException.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/service/IProductValidator.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/output/SummaryInventoryPrinter.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/service/InventoryManager.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/model/PerishableProduct.java
+/workspaces/ProyectoIntegrador-CalidadCodigo-G3/src/main/java/com/example/inventory/output/IInventoryOutput.java

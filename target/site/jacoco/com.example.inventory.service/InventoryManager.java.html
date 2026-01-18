@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">inventory-g3</a> &gt; <a href="index.source.html" class="el_package">com.example.inventory.service</a> &gt; <span class="el_source">InventoryManager.java</span></div><h1>InventoryManager.java</h1><pre class="source lang-java linenums">package com.example.inventory.service;
+
+import com.example.inventory.model.Product;
+import com.example.inventory.exception
+    .InvalidProductException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * Gestor principal del inventario de productos.
+ * Implementa operaciones CRUD y consultas.
+ * 
+ * @author Inventory Team
+ * @version 1.0
+ */
+public class InventoryManager 
+        implements IInventoryOperations {
+    private final List&lt;Product&gt; products;
+    private final IProductValidator validator;
+
+    /**
+     * Constructor del gestor de inventario.
+     * 
+     * @param validator Validador de productos
+     */
+<span class="fc" id="L28">    public InventoryManager(IProductValidator validator) {</span>
+<span class="fc" id="L29">        this.products = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">        this.validator = validator;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Agrega un producto al inventario.
+     * Si ya existe, suma cantidades.
+     * 
+     * @param product Producto a agregar
+     * @throws InvalidProductException si es inválido
+     */
+    @Override
+    public void addProduct(Product product) {
+<span class="fc" id="L42">        validator.validateProduct(product);</span>
+        
+<span class="fc" id="L44">        Optional&lt;Product&gt; existingProduct = </span>
+<span class="fc" id="L45">            findProductByName(product.getName());</span>
+        
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (existingProduct.isPresent()) {</span>
+<span class="fc" id="L48">            mergeProductQuantity(</span>
+<span class="fc" id="L49">                existingProduct.get(), </span>
+<span class="fc" id="L50">                product.getQuantity());</span>
+        } else {
+<span class="fc" id="L52">            products.add(product);</span>
+<span class="fc" id="L53">            System.out.println(</span>
+<span class="fc" id="L54">                &quot;✓ Product added: &quot; + product.getName());</span>
+        }
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Fusiona cantidad de producto existente.
+     * 
+     * @param existing Producto existente
+     * @param additionalQuantity Cantidad adicional
+     */
+    private void mergeProductQuantity(Product existing, 
+                                      int additionalQuantity) {
+<span class="fc" id="L66">        int newQuantity = existing.getQuantity() </span>
+            + additionalQuantity;
+<span class="fc" id="L68">        validator.validateQuantity(newQuantity);</span>
+<span class="fc" id="L69">        existing.setQuantity(newQuantity);</span>
+<span class="fc" id="L70">        System.out.println(</span>
+<span class="fc" id="L71">            &quot;✓ Quantity updated: &quot; + existing.getName());</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Elimina un producto del inventario.
+     * 
+     * @param productName Nombre del producto
+     * @return true si se eliminó, false si no existe
+     */
+    @Override
+    public boolean removeProduct(String productName) {
+<span class="fc" id="L82">        boolean removed = products.removeIf(</span>
+<span class="fc" id="L83">            p -&gt; p.getName()</span>
+<span class="fc" id="L84">                .equalsIgnoreCase(productName));</span>
+        
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (removed) {</span>
+<span class="fc" id="L87">            System.out.println(</span>
+                &quot;✓ Product removed: &quot; + productName);
+        } else {
+<span class="nc" id="L90">            System.out.println(</span>
+                &quot;✗ Product not found: &quot; + productName);
+        }
+        
+<span class="fc" id="L94">        return removed;</span>
+    }
+
+    /**
+     * Busca un producto por nombre.
+     * 
+     * @param productName Nombre a buscar
+     * @return Optional con el producto si existe
+     */
+    @Override
+    public Optional&lt;Product&gt; findProductByName(
+            String productName) {
+<span class="fc" id="L106">        return products.stream()</span>
+<span class="fc" id="L107">                .filter(p -&gt; p.getName()</span>
+<span class="fc" id="L108">                    .equalsIgnoreCase(productName))</span>
+<span class="fc" id="L109">                .findFirst();</span>
+    }
+
+    /**
+     * Obtiene todos los productos.
+     * 
+     * @return Lista de todos los productos
+     */
+    @Override
+    public List&lt;Product&gt; getAllProducts() {
+<span class="nc" id="L119">        return new ArrayList&lt;&gt;(products);</span>
+    }
+
+    /**
+     * Filtra productos por categoría.
+     * 
+     * @param category Categoría a buscar
+     * @return Lista de productos de la categoría
+     */
+    @Override
+    public List&lt;Product&gt; getProductsByCategory(
+            String category) {
+<span class="fc" id="L131">        return products.stream()</span>
+<span class="fc" id="L132">                .filter(p -&gt; p.getCategory()</span>
+<span class="fc" id="L133">                    .equalsIgnoreCase(category))</span>
+<span class="fc" id="L134">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Actualiza cantidad de un producto.
+     * 
+     * @param productName Nombre del producto
+     * @param newQuantity Nueva cantidad
+     * @throws InvalidProductException si no existe
+     */
+    @Override
+    public void updateProductQuantity(String productName, 
+                                      int newQuantity) {
+<span class="fc" id="L147">        validator.validateQuantity(newQuantity);</span>
+        
+<span class="fc" id="L149">        Optional&lt;Product&gt; product = </span>
+<span class="fc" id="L150">            findProductByName(productName);</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (product.isPresent()) {</span>
+<span class="fc" id="L152">            product.get().setQuantity(newQuantity);</span>
+<span class="fc" id="L153">            System.out.println(</span>
+                &quot;✓ Quantity updated: &quot; + productName);
+        } else {
+<span class="nc" id="L156">            throw new InvalidProductException(</span>
+                &quot;Product not found: &quot; + productName);
+        }
+<span class="fc" id="L159">    }</span>
+
+    /**
+     * Actualiza precio de un producto.
+     * 
+     * @param productName Nombre del producto
+     * @param newPrice Nuevo precio
+     * @throws InvalidProductException si no existe
+     */
+    @Override
+    public void updateProductPrice(String productName, 
+                                   double newPrice) {
+<span class="fc" id="L171">        validator.validatePrice(newPrice);</span>
+        
+<span class="fc" id="L173">        Optional&lt;Product&gt; product = </span>
+<span class="fc" id="L174">            findProductByName(productName);</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if (product.isPresent()) {</span>
+<span class="fc" id="L176">            product.get().setPrice(newPrice);</span>
+<span class="fc" id="L177">            System.out.println(</span>
+                &quot;✓ Price updated: &quot; + productName);
+        } else {
+<span class="nc" id="L180">            throw new InvalidProductException(</span>
+                &quot;Product not found: &quot; + productName);
+        }
+<span class="fc" id="L183">    }</span>
+
+    /**
+     * Obtiene el total de productos diferentes.
+     * 
+     * @return Número total de productos
+     */
+    @Override
+    public int getTotalProductCount() {
+<span class="fc" id="L192">        return products.size();</span>
+    }
+
+    /**
+     * Calcula valor total del inventario.
+     * 
+     * @return Suma de todos los valores
+     */
+    @Override
+    public double calculateTotalInventoryValue() {
+<span class="fc" id="L202">        return products.stream()</span>
+<span class="fc" id="L203">                .mapToDouble(Product::getTotalValue)</span>
+<span class="fc" id="L204">                .sum();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

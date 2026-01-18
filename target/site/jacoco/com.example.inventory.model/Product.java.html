@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Product.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">inventory-g3</a> &gt; <a href="index.source.html" class="el_package">com.example.inventory.model</a> &gt; <span class="el_source">Product.java</span></div><h1>Product.java</h1><pre class="source lang-java linenums">package com.example.inventory.model;
+
+/**
+ * Representa un producto en el inventario.
+ * Clase base para todos los tipos de productos.
+ * 
+ * @author Inventory Team
+ * @version 1.0
+ */
+public class Product {
+    private final String name;
+    private int quantity;
+    private double price;
+    private final String category;
+
+    /**
+     * Constructor para crear un nuevo producto.
+     * 
+     * @param name Nombre del producto
+     * @param quantity Cantidad en inventario
+     * @param price Precio unitario del producto
+     * @param category Categoría del producto
+     */
+    public Product(String name, int quantity, 
+<span class="fc" id="L25">                   double price, String category) {</span>
+<span class="fc" id="L26">        this.name = name;</span>
+<span class="fc" id="L27">        this.quantity = quantity;</span>
+<span class="fc" id="L28">        this.price = price;</span>
+<span class="fc" id="L29">        this.category = category;</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Obtiene el nombre del producto.
+     * 
+     * @return Nombre del producto
+     */
+    public String getName() {
+<span class="fc" id="L38">        return name;</span>
+    }
+
+    /**
+     * Obtiene la cantidad disponible.
+     * 
+     * @return Cantidad en inventario
+     */
+    public int getQuantity() {
+<span class="fc" id="L47">        return quantity;</span>
+    }
+
+    /**
+     * Establece una nueva cantidad.
+     * 
+     * @param quantity Nueva cantidad
+     */
+    public void setQuantity(int quantity) {
+<span class="fc" id="L56">        this.quantity = quantity;</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Obtiene el precio unitario.
+     * 
+     * @return Precio del producto
+     */
+    public double getPrice() {
+<span class="fc" id="L65">        return price;</span>
+    }
+
+    /**
+     * Establece un nuevo precio.
+     * 
+     * @param price Nuevo precio
+     */
+    public void setPrice(double price) {
+<span class="fc" id="L74">        this.price = price;</span>
+<span class="fc" id="L75">    }</span>
+
+    /**
+     * Obtiene la categoría.
+     * 
+     * @return Categoría del producto
+     */
+    public String getCategory() {
+<span class="fc" id="L83">        return category;</span>
+    }
+
+    /**
+     * Calcula el valor total del inventario.
+     * 
+     * @return Cantidad multiplicada por precio
+     */
+    public double getTotalValue() {
+<span class="fc" id="L92">        return quantity * price;</span>
+    }
+
+    /**
+     * Genera información formateada del producto.
+     * 
+     * @return String con información del producto
+     */
+    public String getProductInfo() {
+<span class="fc" id="L101">        return String.format(</span>
+            &quot;Product: %s [%s], Quantity: %d, Price: $%.2f&quot;, 
+<span class="fc" id="L103">            name, category, quantity, price);</span>
+    }
+
+    /**
+     * Representación en String del producto.
+     * 
+     * @return Información del producto
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L113">        return getProductInfo();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

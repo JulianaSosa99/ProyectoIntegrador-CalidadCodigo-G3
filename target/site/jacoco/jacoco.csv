@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+inventory-g3,default,Inventory,79,0,2,0,16,0,5,0,4,0
+inventory-g3,com.example.inventory,Main,185,0,0,0,47,0,7,0,7,0
+inventory-g3,com.example.inventory.output,SummaryInventoryPrinter,121,0,2,0,33,0,6,0,5,0
+inventory-g3,com.example.inventory.output,ConsoleInventoryPrinter,40,0,2,0,11,0,4,0,3,0
+inventory-g3,com.example.inventory.output,DetailedInventoryPrinter,144,0,10,0,36,0,8,0,3,0
+inventory-g3,com.example.inventory.service,ProductValidator,61,63,7,13,9,19,6,9,0,5
+inventory-g3,com.example.inventory.service,InventoryManager,22,163,3,5,4,53,4,14,1,13
+inventory-g3,com.example.inventory.exception,InvalidProductException,5,4,0,0,2,2,1,1,1,1
+inventory-g3,com.example.inventory.model,PerishableProduct,57,0,4,0,10,0,7,0,5,0
+inventory-g3,com.example.inventory.model,ElectronicProduct,47,0,2,0,9,0,6,0,5,0
+inventory-g3,com.example.inventory.model,Product,3,69,0,0,1,17,1,9,1,9
